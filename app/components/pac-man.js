@@ -8,14 +8,22 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   screenWidth: 20,
   screenHeight: 15,
 
-  didInsertElement: function() {
-    this.drawCircle();
-  },
-
   ctx: Ember.computed(function() {
     let canvas = document.getElementById("myCanvas");
     return canvas.getContext("2d");
   }),
+
+  screenPixelWidth: Ember.computed(function() {
+    return this.get('screenWidth') * this.get('squareSize');
+  }),
+
+  screenPixelHeight: Ember.computed(function() {
+    return this.get('screenHeight') * this.get('squareSize');
+  }),
+
+  didInsertElement: function() {
+    this.drawCircle();
+  },
 
   drawCircle: function() {
     let ctx = this.get('ctx');
@@ -36,10 +44,10 @@ export default Ember.Component.extend(KeyboardShortcuts, {
 
   clearScreen() {
     let ctx = this.get('ctx');
-    let screenWidth = this.get('screenWidth') * this.get('squareSize');
-    let screenHeight = this.get('screenHeight') * this.get('squareSize');
+    let screenPixelWidth = this.get('screenPixelWidth');
+    let screenPixelHeight = this.get('screenPixelHeight');
 
-    ctx.clearRect(0, 0, screenWidth, screenHeight);
+    ctx.clearRect(0, 0, screenPixelWidth, screenPixelHeight);
   },
 
   movePacMan(direction, amount) {
