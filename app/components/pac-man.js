@@ -8,6 +8,11 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   screenWidth: 20,
   screenHeight: 15,
 
+  walls: [
+    { x: 1, y: 1 },
+    { x: 8, y: 5 }
+  ],
+
   ctx: Ember.computed(function() {
     let canvas = document.getElementById("myCanvas");
     return canvas.getContext("2d");
@@ -22,7 +27,23 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   }),
 
   didInsertElement: function() {
+    this.drawWalls();
     this.drawCircle();
+  },
+
+  drawWalls() {
+    let squareSize = this.get('squareSize');
+    let ctx = this.get('ctx');
+    ctx.fillStyle = '#000';
+
+    let walls = this.get('walls');
+    walls.forEach(function(wall) {
+      ctx.fillRect(
+        wall.x * squareSize,
+        wall.y * squareSize,
+        squareSize,
+        squareSize);
+    });
   },
 
   drawCircle: function() {
@@ -53,12 +74,23 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   movePacMan(direction, amount) {
     this.incrementProperty(direction, amount);
 
-    if (this.offTheMap()) {
+    if (this.offTheMap() || this.collideWithWall()) {
       this.decrementProperty(direction, amount);
     }
 
     this.clearScreen();
+    this.drawWalls();
     this.drawCircle();
+  },
+
+  collideWithWall() {
+    let x = this.get('x');
+    let y = this.get('y');
+    let walls = this.get('walls');
+
+    return walls.any(function(wall) {
+      return x == wall.x && y == wall.y;
+    });
   },
 
   offTheMap() {
