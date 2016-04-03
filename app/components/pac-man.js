@@ -41,16 +41,15 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   },
 
   drawGrid() {
-    let squareSize = this.get('squareSize');
     let ctx = this.get('ctx');
     ctx.fillStyle = '#000';
 
     let grid = this.get('grid');
     grid.forEach((row, rowIndex) => {
       row.forEach((cell, columnIndex) => {
-        if (cell == 1) {
+        if (cell === 1) {
           this.drawWall(columnIndex, rowIndex);
-        } else if (cell == 2) {
+        } else if (cell === 2) {
           this.drawPellet(columnIndex, rowIndex);
         }
       });
@@ -90,7 +89,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     let radius = this.get('squareSize') / 2;
 
     let pixelX = (x + 1/2) * squareSize;
-    let pixelY = (y + 1/2) * squareSize
+    let pixelY = (y + 1/2) * squareSize;
 
     ctx.fillStyle = '#000';
     ctx.beginPath();
@@ -124,7 +123,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     let y = this.get('y');
     let grid = this.get('grid');
 
-    return grid[y][x] == 1;
+    return grid[y][x] === 1;
   },
 
   offTheMap() {
@@ -133,10 +132,10 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     let screenHeight = this.get('screenHeight');
     let screenWidth = this.get('screenWidth');
 
-    return x < 0
-      || y < 0
-      || x >= screenWidth
-      || y >= screenHeight;
+    return x < 0 ||
+      y < 0 ||
+      x >= screenWidth ||
+      y >= screenHeight;
   },
 
   keyboardShortcuts: {
