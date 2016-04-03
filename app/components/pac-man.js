@@ -56,6 +56,16 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     });
   },
 
+  processAnyPellets() {
+    let x = this.get('x');
+    let y = this.get('y');
+    let grid = this.get('grid');
+
+    if (grid[y][x] == 2) {
+      grid[y][x] = 0;
+    }
+  },
+
   drawPellet(x, y) {
     let radiusDivisor = 6;
     this.drawCircle(x, y, radiusDivisor);
@@ -105,9 +115,11 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   movePacMan(direction, amount) {
     this.incrementProperty(direction, amount);
 
-    if (this.offTheMap() || this.collideWithWall()) {
+    if (this.collideWithBorder() || this.collideWithWall()) {
       this.decrementProperty(direction, amount);
     }
+
+    this.processAnyPellets();
 
     this.clearScreen();
     this.drawGrid();
@@ -122,7 +134,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     return grid[y][x] === 1;
   },
 
-  offTheMap() {
+  collideWithBorder() {
     let x = this.get('x');
     let y = this.get('y');
     let screenHeight = this.get('screenHeight');
