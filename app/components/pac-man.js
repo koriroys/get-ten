@@ -5,13 +5,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   x: 1,
   y: 2,
   squareSize: 40,
-  screenWidth: Ember.computed(function() {
-    return this.get('grid.firstObject.length');
-  }),
-  screenHeight: Ember.computed(function() {
-    return this.get('grid.length');
-  }),
-
+  score: 0,
   grid:
   [
     [2, 2, 2, 2, 2, 2, 2, 1],
@@ -21,6 +15,13 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     [2, 2, 2, 2, 2, 2, 2, 1],
     [1, 2, 2, 2, 2, 2, 2, 1],
   ],
+
+  screenWidth: Ember.computed(function() {
+    return this.get('grid.firstObject.length');
+  }),
+  screenHeight: Ember.computed(function() {
+    return this.get('grid.length');
+  }),
 
   ctx: Ember.computed(function() {
     let canvas = document.getElementById("myCanvas");
@@ -63,6 +64,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
 
     if (grid[y][x] == 2) {
       grid[y][x] = 0;
+      this.incrementProperty('score');
     }
   },
 
