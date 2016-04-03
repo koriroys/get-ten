@@ -6,6 +6,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   y: 2,
   squareSize: 40,
   score: 0,
+  levelNumber: 1,
   grid:
   [
     [2, 2, 2, 2, 2, 2, 2, 1],
@@ -65,6 +66,11 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     if (grid[y][x] == 2) {
       grid[y][x] = 0;
       this.incrementProperty('score');
+
+      if (this.levelComplete()) {
+        this.incrementProperty('levelNumber');
+        this.restartLevel();
+      }
     }
   },
 
@@ -126,6 +132,36 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     this.clearScreen();
     this.drawGrid();
     this.drawPac();
+  },
+
+  levelComplete() {
+    let hasPelletsLeft = false;
+    let grid = this.get('grid');
+
+    grid.forEach((row) => {
+      row.forEach((cell) => {
+        if (cell === 2) {
+          hasPelletsLeft = true;
+        }
+      });
+    });
+
+    return !hasPelletsLeft;
+  },
+
+  restartLevel() {
+    this.set('x', 0);
+    this.set('y', 0);
+
+    let grid = this.get('grid');
+
+    grid.forEach((row, rowIndex) => {
+      row.forEach((cell, columnIndex) => {
+        if (cell === 0) {
+          grid[rowIndex][columnIndex] = 2;
+        }
+      });
+    });
   },
 
   collideWithWall() {
