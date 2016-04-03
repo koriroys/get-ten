@@ -5,12 +5,21 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   x: 1,
   y: 2,
   squareSize: 40,
-  screenWidth: 20,
-  screenHeight: 15,
+  screenWidth: Ember.computed(function() {
+    return this.get('grid.firstObject.length');
+  }),
+  screenHeight: Ember.computed(function() {
+    return this.get('grid.length');
+  }),
 
-  walls: [
-    { x: 1, y: 1 },
-    { x: 8, y: 5 }
+  grid:
+  [
+    [2, 2, 2, 2, 2, 2, 2, 1],
+    [2, 1, 2, 1, 2, 2, 2, 1],
+    [2, 2, 1, 2, 2, 2, 2, 1],
+    [2, 2, 2, 2, 2, 2, 2, 1],
+    [2, 2, 2, 2, 2, 2, 2, 1],
+    [1, 2, 2, 2, 2, 2, 2, 1],
   ],
 
   ctx: Ember.computed(function() {
@@ -27,23 +36,50 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   }),
 
   didInsertElement: function() {
-    this.drawWalls();
+    this.drawGrid();
     this.drawCircle();
   },
 
-  drawWalls() {
+  drawGrid() {
     let squareSize = this.get('squareSize');
     let ctx = this.get('ctx');
     ctx.fillStyle = '#000';
 
-    let walls = this.get('walls');
-    walls.forEach(function(wall) {
-      ctx.fillRect(
-        wall.x * squareSize,
-        wall.y * squareSize,
-        squareSize,
-        squareSize);
+    let grid = this.get('grid');
+    grid.forEach((row, rowIndex) => {
+      row.forEach((cell, columnIndex) => {
+        if (cell == 1) {
+          this.drawWall(columnIndex, rowIndex);
+        } else if (cell == 2) {
+          this.drawPellet(columnIndex, rowIndex);
+        }
+      });
     });
+  },
+
+  drawPellet(x, y) {
+    let ctx = this.get('ctx');
+    let squareSize = this.get('squareSize');
+    let pixelX = (x + 1/2) * squareSize;
+    let pixelY = (y + 1/2) * squareSize;
+
+    ctx.fillStyle = '#000';
+    ctx.beginPath();
+    ctx.arc(pixelX, pixelY, squareSize/6, 0, Math.PI * 2, false);
+    ctx.closePath();
+    ctx.fill();
+  },
+
+  drawWall(x, y) {
+    let ctx = this.get('ctx');
+    let squareSize = this.get('squareSize');
+
+    ctx.fillStyle = '#000';
+    ctx.fillRect(
+      x * squareSize,
+      y * squareSize,
+      squareSize,
+      squareSize);
   },
 
   drawCircle: function() {
@@ -79,18 +115,16 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     }
 
     this.clearScreen();
-    this.drawWalls();
+    this.drawGrid();
     this.drawCircle();
   },
 
   collideWithWall() {
     let x = this.get('x');
     let y = this.get('y');
-    let walls = this.get('walls');
+    let grid = this.get('grid');
 
-    return walls.any(function(wall) {
-      return x == wall.x && y == wall.y;
-    });
+    return grid[y][x] == 1;
   },
 
   offTheMap() {
