@@ -2,6 +2,11 @@ import Ember from 'ember';
 import KeyboardShortcuts from 'ember-keyboard-shortcuts/mixins/component';
 
 export default Ember.Component.extend(KeyboardShortcuts, {
+  didInsertElement() {
+    this.movementLoop();
+  },
+
+  frameCount: 0,
   x: 1,
   y: 2,
   squareSize: 40,
@@ -16,10 +21,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     [2, 2, 2, 2, 2, 2, 2, 1],
     [1, 2, 2, 2, 2, 2, 2, 1],
   ],
-  isMoving: false,
-  direction: 'stopped',
-
-
+  direction: 'down',
   directions: {
    'up': {x: 0, y: -1},
    'down': {x: 0, y: 1},
@@ -27,6 +29,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
    'right': {x: 1, y: 0},
    'stopped': {x: 0, y: 0}
   },
+  intent: 'down',
 
   screenWidth: Ember.computed(function() {
     return this.get('grid.firstObject.length');
@@ -47,11 +50,6 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   screenPixelHeight: Ember.computed(function() {
     return this.get('screenHeight') * this.get('squareSize');
   }),
-
-  didInsertElement: function() {
-    this.drawGrid();
-    this.drawPac();
-  },
 
   drawGrid() {
     let ctx = this.get('ctx');
@@ -136,40 +134,40 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     ctx.clearRect(0, 0, screenPixelWidth, screenPixelHeight);
   },
 
-  movePacMan(direction) {
-    if (this.get('isMoving') || this.pathBlockedInDirection(direction)) {
-      // let animation finish
+  changePacDirection() {
+    let intent = this.get('intent');
+    if (this.pathBlockedInDirection(intent)) {
+      this.set('direction', 'stopped')
     } else {
-      this.set('direction', direction);
-      this.set('isMoving', true);
-      this.movementLoop();
+      this.set('direction', intent);
     }
-
-    this.clearScreen();
-    this.drawGrid();
-    this.drawPac();
   },
 
   frameCycle: 1,
   framesPerMovement: 30,
 
   movementLoop() {
+    this.incrementProperty('frameCount');
+    let frameCount = this.get('frameCount');
+    console.log(`frame: ${frameCount}`);
     if (this.get('frameCycle') == this.get('framesPerMovement')) {
       let direction = this.get('direction');
       this.set('x', this.nextCoordinate('x', direction));
       this.set('y', this.nextCoordinate('y', direction));
 
-      this.set('isMoving', false);
       this.set('frameCycle', 1);
-
       this.processAnyPellets();
+      this.changePacDirection();
+    } else if (this.get('direction') == 'stopped') {
+      this.changePacDirection();
     } else {
       this.incrementProperty('frameCycle');
-      Ember.run.later(this, this.movementLoop, 1000/60);
     }
     this.clearScreen();
     this.drawGrid();
     this.drawPac();
+
+    Ember.run.later(this, this.movementLoop, 1000/60)
   },
 
   levelComplete() {
@@ -219,9 +217,9 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   },
 
   keyboardShortcuts: {
-    up() { this.movePacMan('up'); },
-    down() { this.movePacMan('down'); },
-    left() { this.movePacMan('left'); },
-    right() { this.movePacMan('right'); }
+    up() { this.set('intent', 'up'); },
+    down() { this.set('intent', 'down'); },
+    left() { this.set('intent', 'left'); },
+    right() { this.set('intent', 'right'); }
   }
 });
