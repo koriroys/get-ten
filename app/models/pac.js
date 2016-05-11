@@ -38,7 +38,7 @@ export default Ember.Object.extend(SharedStuff, {
   },
 
   move() {
-    if (this.animationCompleted) {
+    if (this.animationCompleted()) {
       this.finalizeMove();
       this.changeDirection();
     } else if (this.get('direction') == 'stopped') {

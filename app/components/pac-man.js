@@ -79,7 +79,7 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
     this.get('pac').draw();
 
     Ember.run.later(this, this.loop, 1000/60);
-  }
+  },
 
   processAnyPellets() {
     let x = this.get('pac.x');
@@ -115,6 +115,8 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
   restartLevel() {
     this.set('pac.x', 0);
     this.set('pac.y', 0);
+    this.set('pac.frameCycle', 0);
+    this.set('pac.direction', 'stopped');
 
     let grid = this.get('grid');
 
