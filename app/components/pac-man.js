@@ -6,7 +6,7 @@ import Pac from '../models/pac';
 export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
   didInsertElement() {
     this.set('pac', Pac.create());
-    this.movementLoop();
+    this.loop();
   },
 
   score: 0,
@@ -66,32 +66,20 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
     ctx.clearRect(0, 0, screenPixelWidth, screenPixelHeight);
   },
 
-  movementLoop() {
+  loop() {
     this.incrementProperty('frameCount');
     let frameCount = this.get('frameCount');
-    console.log(`frame: ${frameCount}`);
 
-    if (this.get('pac.frameCycle') == this.get('pac.framesPerMovement')) {
-      let direction = this.get('pac.direction');
-      this.set('pac.x', this.get('pac').nextCoordinate('x', direction));
-      this.set('pac.y', this.get('pac').nextCoordinate('y', direction));
+    this.get('pac').move();
 
-      this.set('pac.frameCycle', 1);
+    this.processAnyPellets();
 
-      this.processAnyPellets();
-
-      this.get('pac').changeDirection();
-    } else if (this.get('pac.direction') == 'stopped') {
-      this.get('pac').changeDirection();
-    } else {
-      this.incrementProperty('pac.frameCycle');
-    }
     this.clearScreen();
     this.drawGrid();
     this.get('pac').draw();
 
-    Ember.run.later(this, this.movementLoop, 1000/60)
-  },
+    Ember.run.later(this, this.loop, 1000/60);
+  }
 
   processAnyPellets() {
     let x = this.get('pac.x');
