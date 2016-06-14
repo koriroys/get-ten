@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Location from './location';
 
-const { get, isEqual, Object } = Ember;
+const { get, set, isEqual, Object, computed } = Ember;
 
 export default Object.extend({
   // required properties
@@ -18,11 +18,21 @@ export default Object.extend({
 
   // utilities functions
   deselectAll() {
-
+    let elements = get(this, 'elements');
   },
 
   selectMatchingNeighbors(location) {
 
-  }
-});
+  },
 
+  restart() {
+    let elements = get(this, 'elements');
+
+    elements.forEach((row) => {
+      row.forEach((element) => {
+        set(element, 'value', 1);
+      });
+    });
+  }
+
+});

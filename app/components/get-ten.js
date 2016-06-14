@@ -19,19 +19,13 @@ export default Component.extend(KeyboardShortcuts, {
   //   this.get('level').restart();
   // },
 
-  restart() {
-    let elements = get(this, 'grid.elements');
 
-    grid.forEach((row, rowIndex) => {
-      row.forEach((cell, columnIndex) => {
-        if (cell === 0) {
-          set(grid[rowIndex][columnIndex], 'value', 1);
-        }
-      });
-    });
-  },
 
   actions: {
+    restart() {
+      get(this, 'grid').restart();
+    },
+
     tapped(location) {
       if ( isEqual(get(location, "isSelected"), true) ) {
         // combineMatchingNeighbors();
