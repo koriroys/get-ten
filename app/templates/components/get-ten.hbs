@@ -3,7 +3,7 @@
 {{#each grid as |row|}}
   <div class="row">
   {{#each row as |element|}}
-    <div class="location" onclick={{action "tapped" element}}>{{element}}</div>
+    <div class="location" onclick={{action "tapped" element}}>{{element.value}}</div>
   {{/each}}
   </div>
 {{/each}}

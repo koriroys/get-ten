@@ -1,21 +1,17 @@
 import Ember from 'ember';
 import KeyboardShortcuts from 'ember-keyboard-shortcuts/mixins/component';
-import Game from '../models/game';
-import Grid from '../models/game';
-import Level from '../models/level';
+import Location from '../models/location';
 
-const { Component, get, set, computed } = Ember
+const { Component, get, set, computed, isEqual } = Ember
 
 export default Component.extend(KeyboardShortcuts, {
   init() {
     this._super(...arguments);
 
     let grid = [
-      [1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1],
-      [2, 2, 2, 2, 2],
-      [1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1]
+      [Location.create({ value: 1 }), Location.create({ value: 1 }), Location.create({ value: 1 })],
+      [Location.create({ value: 1 }), Location.create({ value: 1 }), Location.create({ value: 1 })],
+      [Location.create({ value: 2 }), Location.create({ value: 2 }), Location.create({ value: 2 })]
     ];
 
     set(this, 'grid', grid);
@@ -28,11 +24,26 @@ export default Component.extend(KeyboardShortcuts, {
   //   this.get('level').restart();
   // },
 
+  restart() {
+    let grid = get(this, 'grid');
+
+    grid.forEach((row, rowIndex) => {
+      row.forEach((cell, columnIndex) => {
+        if (cell === 0) {
+          set(grid[rowIndex][columnIndex], 'value', 1);
+        }
+      });
+    });
+  },
+
   actions: {
     tapped(location) {
-      if ( get(location, "isSelected", true) ) {
-
+      if ( isEqual(get(location, "isSelected"), true) ) {
+        // combineMatchingNeighbors();
+        // increment(location)
+        //
       } else {
+        console.log("clicked");
         let grid = get(this, "grid");
         get(this, "grid").deselectAll();
         get(this, "grid").selectMatchingNeighbors();
