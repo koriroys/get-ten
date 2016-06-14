@@ -6,5 +6,6 @@ export default Ember.Object.extend({
   // required properties
   value: null,
   row: null,
-  col: null
+  col: null,
+  isSelected: false
 });

@@ -19,6 +19,16 @@ export default Object.extend({
   // utilities functions
   deselectAll() {
     let elements = get(this, 'elements');
+
+    elements.forEach((row) => {
+      row.forEach((element) => {
+        set(element, 'isSelected', false);
+      });
+    });
+  },
+
+  selectLocation(location) {
+    set(location, 'isSelected', true);
   },
 
   selectMatchingNeighbors(location) {

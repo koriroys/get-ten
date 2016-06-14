@@ -32,9 +32,9 @@ export default Component.extend(KeyboardShortcuts, {
         // increment(location)
         //
       } else {
-        console.log("clicked");
         let grid = get(this, "grid");
         get(this, "grid").deselectAll();
+        get(this, "grid").selectLocation(location);
         get(this, "grid").selectMatchingNeighbors(location);
       }
     }

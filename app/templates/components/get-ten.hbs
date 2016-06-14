@@ -6,7 +6,9 @@
 {{#each grid.elements as |row|}}
   <div class="row">
   {{#each row as |element|}}
-    <div class="location" onclick={{action "tapped" element}}>{{element.value}}</div>
+    <div class="location{{if element.isSelected " is-selected"}}" onclick={{action "tapped" element}}>
+      {{element.value}}
+    </div>
   {{/each}}
   </div>
 {{/each}}
