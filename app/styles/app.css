@@ -1,3 +1,14 @@
 #myCanvas {
   background-color: #EDC9AF;
 }
+
+.row {
+  padding: 20px ;
+}
+
+.location {
+  border: 1px solid black;
+  cursor: pointer;
+  display: inline;
+  padding: 20px;
+}

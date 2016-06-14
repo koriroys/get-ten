@@ -1,0 +1,9 @@
+<p>Score: {{score}}</p>
+
+{{#each grid as |row|}}
+  <div class="row">
+  {{#each row as |element|}}
+    <div class="location" onclick={{action "tapped" element}}>{{element}}</div>
+  {{/each}}
+  </div>
+{{/each}}
