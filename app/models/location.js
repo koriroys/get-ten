@@ -1,5 +1,10 @@
 import Ember from 'ember';
 
-export default Ember.Object.extend({
+const { get, isEqual } = Ember;
 
+export default Ember.Object.extend({
+  // required properties
+  value: null,
+  row: null,
+  col: null
 });

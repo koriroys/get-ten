@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import KeyboardShortcuts from 'ember-keyboard-shortcuts/mixins/component';
 import Location from '../models/location';
+import Grid from '../models/grid';
 
 const { Component, get, set, computed, isEqual } = Ember
 
@@ -8,13 +9,7 @@ export default Component.extend(KeyboardShortcuts, {
   init() {
     this._super(...arguments);
 
-    let grid = [
-      [Location.create({ value: 1 }), Location.create({ value: 1 }), Location.create({ value: 1 })],
-      [Location.create({ value: 1 }), Location.create({ value: 1 }), Location.create({ value: 1 })],
-      [Location.create({ value: 2 }), Location.create({ value: 2 }), Location.create({ value: 2 })]
-    ];
-
-    set(this, 'grid', grid);
+    set(this, 'grid', Grid.create());
     // let game = Game.create();
     // set(this, 'game', game);
   },
@@ -25,7 +20,7 @@ export default Component.extend(KeyboardShortcuts, {
   // },
 
   restart() {
-    let grid = get(this, 'grid');
+    let elements = get(this, 'grid.elements');
 
     grid.forEach((row, rowIndex) => {
       row.forEach((cell, columnIndex) => {
@@ -46,7 +41,7 @@ export default Component.extend(KeyboardShortcuts, {
         console.log("clicked");
         let grid = get(this, "grid");
         get(this, "grid").deselectAll();
-        get(this, "grid").selectMatchingNeighbors();
+        get(this, "grid").selectMatchingNeighbors(location);
       }
     }
   }
