@@ -46,10 +46,14 @@ export default Object.extend({
     // } else {
     //   set(elements[row - 1][col], 'isSelected', true);
     // }
-    let north = this.northNeighbor(location, elements);
+    let north = this.northNeighbor(row, col, elements);
+    let south = this.southNeighbor(row, col, elements);
 
     if ( north && get(north, 'value') == value ) {
       set(north, 'isSelected', true);
+    }
+    if ( south && get(south, 'value') == value ) {
+      set(south, 'isSelected', true);
     }
 
     // if ( isEqual(row, MAX_ROW_INDEX) ) {
@@ -60,14 +64,19 @@ export default Object.extend({
 
   },
 
-  northNeighbor(location, elements) {
-    let row = get(location, 'row');
-    let col = get(location, 'col');
-
+  northNeighbor(row, col, elements) {
     if ( isEqual(row, 0) ) {
-      // on the border
+      return null
     } else {
       return elements[row - 1][col];
+    }
+  },
+
+  southNeighbor(row, col, elements) {
+    if ( isEqual(row, MAX_ROW_INDEX) ) {
+      return null
+    } else {
+      return elements[row + 1][col];
     }
   },
 
