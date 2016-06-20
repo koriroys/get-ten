@@ -46,18 +46,27 @@ export default Object.extend({
     let east = this.eastNeighbor(row, col, elements);
     let west = this.westNeighbor(row, col, elements);
 
-    if ( north && get(north, 'value') == value ) {
+    if ( this.neighborMatches(north, value) ) {
       set(north, 'isSelected', true);
     }
-    if ( south && get(south, 'value') == value ) {
+    if ( this.neighborMatches(south, value) ) {
       set(south, 'isSelected', true);
     }
-    if ( east && get(east, 'value') == value ) {
+    if ( this.neighborMatches(east, value) ) {
       set(east, 'isSelected', true);
     }
-    if ( west && get(west, 'value') == value) {
+    if ( this.neighborMatches(west, value) ) {
       set(west, 'isSelected', true);
     }
+  },
+
+  neighborMatches(neighbor, value) {
+    let isMatch = false;
+    if ( neighbor ) {
+      let neighborValue = get(neighbor, 'value');
+      isMatch = neighbor && isEqual(neighborValue, value);
+    }
+    return isMatch;
   },
 
   northNeighbor(row, col, elements) {
