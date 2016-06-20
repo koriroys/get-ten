@@ -13,12 +13,17 @@ export default Object.extend({
   // end required properties
 
   elements: [
-    [Location.create({ value: 1, row: 0, col: 0 }), Location.create({ value: 1, row: 0, col: 1 }), Location.create({ value: 1, row: 0, col: 2 }), Location.create({ value: 1, row: 0, col: 3 }), Location.create({ value: 1, row: 0, col: 4 })],
-    [Location.create({ value: 1, row: 1, col: 0 }), Location.create({ value: 1, row: 1, col: 1 }), Location.create({ value: 1, row: 1, col: 2 }), Location.create({ value: 1, row: 1, col: 3 }), Location.create({ value: 1, row: 1, col: 4 })],
-    [Location.create({ value: 2, row: 2, col: 0 }), Location.create({ value: 2, row: 2, col: 1 }), Location.create({ value: 2, row: 2, col: 2 }), Location.create({ value: 1, row: 2, col: 3 }), Location.create({ value: 1, row: 2, col: 4 })],
-    [Location.create({ value: 1, row: 3, col: 0 }), Location.create({ value: 1, row: 3, col: 1 }), Location.create({ value: 1, row: 3, col: 2 }), Location.create({ value: 1, row: 3, col: 3 }), Location.create({ value: 1, row: 3, col: 4 })],
-    [Location.create({ value: 1, row: 4, col: 0 }), Location.create({ value: 1, row: 4, col: 1 }), Location.create({ value: 1, row: 4, col: 2 }), Location.create({ value: 1, row: 4, col: 3 }), Location.create({ value: 1, row: 4, col: 4 })]
+    [Location.create({ value: 0, row: 0, col: 0 }), Location.create({ value: 0, row: 0, col: 1 }), Location.create({ value: 0, row: 0, col: 2 }), Location.create({ value: 0, row: 0, col: 3 }), Location.create({ value: 0, row: 0, col: 4 })],
+    [Location.create({ value: 0, row: 1, col: 0 }), Location.create({ value: 0, row: 1, col: 1 }), Location.create({ value: 0, row: 1, col: 2 }), Location.create({ value: 0, row: 1, col: 3 }), Location.create({ value: 0, row: 1, col: 4 })],
+    [Location.create({ value: 0, row: 2, col: 0 }), Location.create({ value: 0, row: 2, col: 1 }), Location.create({ value: 0, row: 2, col: 2 }), Location.create({ value: 0, row: 2, col: 3 }), Location.create({ value: 0, row: 2, col: 4 })],
+    [Location.create({ value: 0, row: 3, col: 0 }), Location.create({ value: 0, row: 3, col: 1 }), Location.create({ value: 0, row: 3, col: 2 }), Location.create({ value: 0, row: 3, col: 3 }), Location.create({ value: 0, row: 3, col: 4 })],
+    [Location.create({ value: 0, row: 4, col: 0 }), Location.create({ value: 0, row: 4, col: 1 }), Location.create({ value: 0, row: 4, col: 2 }), Location.create({ value: 0, row: 4, col: 3 }), Location.create({ value: 0, row: 4, col: 4 })]
   ],
+
+  init() {
+    this.restart();
+    this._super(...arguments);
+  },
 
   // utilities functions
   deselectAll() {
@@ -100,14 +105,20 @@ export default Object.extend({
       return elements[row][col - 1];
     }
   },
+
   restart() {
     let elements = get(this, 'elements');
 
     elements.forEach((row) => {
       row.forEach((element) => {
-        set(element, 'value', 1);
+        set(element, 'value', this.randomInclusive(1, 3));
+        set(element, 'isSelected', false);
       });
     });
+  },
+
+  randomInclusive(min, max) {
+    return min + Math.floor(Math.random() * (max - min + 1));
   }
 
 });
