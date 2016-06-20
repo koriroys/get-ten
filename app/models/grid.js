@@ -41,13 +41,9 @@ export default Object.extend({
     let value = get(location, 'value');
     let elements = get(this, 'elements');
 
-    // if ( isEqual(row, 0) {
-    //   // don't check north
-    // } else {
-    //   set(elements[row - 1][col], 'isSelected', true);
-    // }
     let north = this.northNeighbor(row, col, elements);
     let south = this.southNeighbor(row, col, elements);
+    let east = this.eastNeighbor(row, col, elements);
 
     if ( north && get(north, 'value') == value ) {
       set(north, 'isSelected', true);
@@ -55,13 +51,9 @@ export default Object.extend({
     if ( south && get(south, 'value') == value ) {
       set(south, 'isSelected', true);
     }
-
-    // if ( isEqual(row, MAX_ROW_INDEX) ) {
-    //   // don't check south
-    // } else {
-    //   set(elements[row + 1][col], 'isSelected', true);
-    // }
-
+    if ( east && get(east, 'value') == value ) {
+      set(east, 'isSelected', true);
+    }
   },
 
   northNeighbor(row, col, elements) {
@@ -77,6 +69,14 @@ export default Object.extend({
       return null
     } else {
       return elements[row + 1][col];
+    }
+  },
+
+  eastNeighbor(row, col, elements) {
+    if ( isEqual(col, MAX_COL_INDEX) ) {
+      return null
+    } else {
+      return elements[row][col + 1];
     }
   },
 
