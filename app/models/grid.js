@@ -44,6 +44,7 @@ export default Object.extend({
     let north = this.northNeighbor(row, col, elements);
     let south = this.southNeighbor(row, col, elements);
     let east = this.eastNeighbor(row, col, elements);
+    let west = this.westNeighbor(row, col, elements);
 
     if ( north && get(north, 'value') == value ) {
       set(north, 'isSelected', true);
@@ -53,6 +54,9 @@ export default Object.extend({
     }
     if ( east && get(east, 'value') == value ) {
       set(east, 'isSelected', true);
+    }
+    if ( west && get(west, 'value') == value) {
+      set(west, 'isSelected', true);
     }
   },
 
@@ -80,6 +84,13 @@ export default Object.extend({
     }
   },
 
+  westNeighbor(row, col, elements) {
+    if ( isEqual(col, 0) ) {
+      return null
+    } else {
+      return elements[row][col - 1];
+    }
+  },
   restart() {
     let elements = get(this, 'elements');
 
