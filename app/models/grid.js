@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import Location from './location';
 
-const { get, set, isEqual, Object, computed } = Ember;
+const { get, set, isEqual, isPresent } = Ember;
 const MAX_ROW_INDEX = 4;
 const MAX_COL_INDEX = 4;
 
-export default Object.extend({
+export default Ember.Object.extend({
   // required properties
   value: null,
   row: null,
@@ -51,17 +51,133 @@ export default Object.extend({
     let east = this.eastNeighbor(row, col, elements);
     let west = this.westNeighbor(row, col, elements);
 
-    if ( this.neighborMatches(north, value) ) {
-      set(north, 'isSelected', true);
+    // if ( this.neighborMatches(north, value) ) {
+    //   set(north, 'isSelected', true);
+    // }
+    if ( isPresent(north) ) {
+      this.checkNorth(north, value);
     }
-    if ( this.neighborMatches(south, value) ) {
-      set(south, 'isSelected', true);
+
+    if ( isPresent(east) ) {
+      this.checkEast(east, value);
     }
-    if ( this.neighborMatches(east, value) ) {
-      set(east, 'isSelected', true);
+
+    if ( isPresent(west) ) {
+      this.checkWest(west, value);
     }
-    if ( this.neighborMatches(west, value) ) {
-      set(west, 'isSelected', true);
+
+    if ( isPresent(south) ) {
+      this.checkSouth(south, value);
+    }
+
+    // if ( this.neighborMatches(south, value) ) {
+    //   set(south, 'isSelected', true);
+    // }
+    // if ( this.neighborMatches(east, value) ) {
+    //   set(east, 'isSelected', true);
+    // }
+    // if ( this.neighborMatches(west, value) ) {
+    //   set(west, 'isSelected', true);
+    // }
+  },
+
+  checkNorth(location, value) {
+    let row = get(location, 'row');
+    let col = get(location, 'col');
+    let elements = get(this, 'elements');
+
+    if ( this.neighborMatches(location, value) ) {
+      set(location, 'isSelected', true);
+
+      let west = this.westNeighbor(row, col, elements);
+      if ( isPresent(west) && isEqual(get(west, 'isSelected'), false) ) {
+        this.checkWest(west, value);
+      }
+
+      let north = this.northNeighbor(row, col, elements);
+      if ( isPresent(north) && isEqual(get(north, 'isSelected'), false) ) {
+        this.checkNorth(north, value);
+      }
+
+      let east = this.eastNeighbor(row, col, elements);
+      if ( isPresent(east) && isEqual(get(east, 'isSelected'), false) ) {
+        this.checkEast(east, value);
+      }
+    }
+  },
+
+  checkSouth(location, value) {
+    let row = get(location, 'row');
+    let col = get(location, 'col');
+    let elements = get(this, 'elements');
+
+    if ( this.neighborMatches(location, value) ) {
+      set(location, 'isSelected', true);
+
+      let east = this.eastNeighbor(row, col, elements);
+      if ( isPresent(east) && isEqual(get(east, 'isSelected'), false)) {
+        this.checkEast(east, value);
+      }
+
+      let south = this.southNeighbor(row, col, elements);
+      if ( isPresent(south) && isEqual(get(south, 'isSelected'), false) ) {
+        this.checkSouth(south, value);
+      }
+
+      let west = this.westNeighbor(row, col, elements);
+      if ( isPresent(west) && isEqual(get(west, 'isSelected'), false)) {
+        this.checkWest(west, value);
+      }
+    }
+  },
+
+  checkEast(location, value) {
+    let row = get(location, 'row');
+    let col = get(location, 'col');
+    let elements = get(this, 'elements');
+
+    if ( this.neighborMatches(location, value) ) {
+      set(location, 'isSelected', true);
+
+      let north = this.northNeighbor(row, col, elements);
+      if ( isPresent(north) && isEqual(get(north, 'isSelected'), false) ) {
+        this.checkNorth(north, value);
+      }
+
+      let east = this.eastNeighbor(row, col, elements);
+      if ( isPresent(east) && isEqual(get(east, 'isSelected'), false) ) {
+        this.checkEast(east, value);
+      }
+
+      let south = this.southNeighbor(row, col, elements);
+      if ( isPresent(south) && isEqual(get(south, 'isSelected'), false) ) {
+        this.checkSouth(south, value);
+      }
+    }
+  },
+
+  checkWest(location, value) {
+    let row = get(location, 'row');
+    let col = get(location, 'col');
+    let elements = get(this, 'elements');
+
+    if ( this.neighborMatches(location, value) ) {
+      set(location, 'isSelected', true);
+
+      let south = this.southNeighbor(row, col, elements);
+      if ( isPresent(south) && isEqual(get(south, 'isSelected'), false) ) {
+        this.checkSouth(south, value);
+      }
+
+      let west = this.westNeighbor(row, col, elements);
+      if ( isPresent(west) && isEqual(get(west, 'isSelected'), false) ) {
+        this.checkWest(west, value);
+      }
+
+      let north = this.northNeighbor(row, col, elements);
+      if ( isPresent(north) && isEqual(get(north, 'isSelected'), false) ) {
+        this.checkNorth(north, value);
+      }
     }
   },
 
@@ -76,7 +192,7 @@ export default Object.extend({
 
   northNeighbor(row, col, elements) {
     if ( isEqual(row, 0) ) {
-      return null
+      return null;
     } else {
       return elements[row - 1][col];
     }
@@ -84,7 +200,7 @@ export default Object.extend({
 
   southNeighbor(row, col, elements) {
     if ( isEqual(row, MAX_ROW_INDEX) ) {
-      return null
+      return null;
     } else {
       return elements[row + 1][col];
     }
@@ -92,7 +208,7 @@ export default Object.extend({
 
   eastNeighbor(row, col, elements) {
     if ( isEqual(col, MAX_COL_INDEX) ) {
-      return null
+      return null;
     } else {
       return elements[row][col + 1];
     }
@@ -100,7 +216,7 @@ export default Object.extend({
 
   westNeighbor(row, col, elements) {
     if ( isEqual(col, 0) ) {
-      return null
+      return null;
     } else {
       return elements[row][col - 1];
     }
@@ -111,7 +227,7 @@ export default Object.extend({
 
     elements.forEach((row) => {
       row.forEach((element) => {
-        set(element, 'value', this.randomInclusive(1, 3));
+        set(element, 'value', this.randomInclusive(1, 2));
         set(element, 'isSelected', false);
       });
     });
