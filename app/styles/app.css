@@ -13,6 +13,10 @@
   padding: 20px;
 }
 
-.is-selected {
+.is-selected.one {
   background-color: red;
+}
+
+.is-selected.two {
+  background-color: blue;
 }

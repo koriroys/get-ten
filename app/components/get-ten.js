@@ -27,15 +27,16 @@ export default Component.extend(KeyboardShortcuts, {
     },
 
     tapped(location) {
+      let grid = get(this, "grid");
       if ( isEqual(get(location, "isSelected"), true) ) {
+        grid.combineMatchingNeighbors();
         // combineMatchingNeighbors();
         // increment(location)
         //
       } else {
-        let grid = get(this, "grid");
-        get(this, "grid").deselectAll();
-        get(this, "grid").selectLocation(location);
-        get(this, "grid").selectMatchingNeighbors(location);
+        grid.deselectAll();
+        grid.selectLocation(location);
+        grid.selectMatchingNeighbors(location);
       }
     }
   }

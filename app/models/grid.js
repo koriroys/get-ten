@@ -51,9 +51,6 @@ export default Ember.Object.extend({
     let east = this.eastNeighbor(row, col, elements);
     let west = this.westNeighbor(row, col, elements);
 
-    // if ( this.neighborMatches(north, value) ) {
-    //   set(north, 'isSelected', true);
-    // }
     if ( isPresent(north) ) {
       this.checkNorth(north, value);
     }
@@ -69,16 +66,6 @@ export default Ember.Object.extend({
     if ( isPresent(south) ) {
       this.checkSouth(south, value);
     }
-
-    // if ( this.neighborMatches(south, value) ) {
-    //   set(south, 'isSelected', true);
-    // }
-    // if ( this.neighborMatches(east, value) ) {
-    //   set(east, 'isSelected', true);
-    // }
-    // if ( this.neighborMatches(west, value) ) {
-    //   set(west, 'isSelected', true);
-    // }
   },
 
   checkNorth(location, value) {
