@@ -14,9 +14,9 @@
 }
 
 .is-selected.one {
-  background-color: red;
+  background-color: #ffa;
 }
 
 .is-selected.two {
-  background-color: blue;
+  background-color: #aff;
 }

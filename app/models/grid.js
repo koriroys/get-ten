@@ -209,6 +209,36 @@ export default Ember.Object.extend({
     }
   },
 
+  combineMatchingNeighbors(location) {
+    let matchingNeighbors = this.matchingNeighbors(location);
+
+    if ( isEqual(matchingNeighbors.length, 0) ) {
+      return; // don't combine if it's a single element
+    }
+
+    matchingNeighbors.forEach((element) => {
+      set(element, "value", 0);
+    });
+  },
+
+  matchingNeighbors(location) {
+    let elements = get(this, "elements");
+    let value = get(location, "value");
+    let selected = [];
+
+    elements.forEach((row) => {
+      row.forEach((element) => {
+        let isSelected = get(element, 'isSelected');
+        if ( isEqual(location, element) ) {
+          // don't select the clicked on element
+        } else if ( isEqual(value, get(element, "value")) && isSelected) {
+          selected.pushObject(element);
+        }
+      });
+    });
+    return selected;
+  },
+
   restart() {
     let elements = get(this, 'elements');
 

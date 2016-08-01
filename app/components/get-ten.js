@@ -29,8 +29,11 @@ export default Component.extend(KeyboardShortcuts, {
     tapped(location) {
       let grid = get(this, "grid");
       if ( isEqual(get(location, "isSelected"), true) ) {
-        grid.combineMatchingNeighbors();
-        // combineMatchingNeighbors();
+        grid.combineMatchingNeighbors(location);
+        location.incrementProperty("value");
+        grid.replaceCombined();
+
+
         // increment(location)
         //
       } else {
