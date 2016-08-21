@@ -13,14 +13,76 @@
   padding: 20px;
 }
 
-.is-selected.one {
-  background-color: #ffa;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.is-selected._1 {
+  background-color: #cfe670;
 }
 
-.is-selected.two {
-  background-color: #aff;
+.is-selected._2 {
+  background-color: #9cdadd;
 }
 
-.is-selected.three {
-  background-color: #afa;
+.is-selected._3 {
+  background-color: #88a4c0;
+}
+
+.is-selected._4 {
+  background-color: #5ceae3;
+}
+
+.is-selected._5 {
+  background-color: #9d7e83;
+}
+
+.is-selected._6 {
+  background-color: #aa7f81;
+}
+
+.is-selected._7 {
+  background-color: #7ee881;
+}
+
+.is-selected._8 {
+  background-color: #76748a;
+}
+
+.is-selected._9 {
+  background-color: #9cb891;
+}
+
+.is-selected._10 {
+  background-color: #a3c4b2;
+}
+
+.is-selected._11 {
+  background-color: #8b7f94;
+}
+
+.is-selected._12 {
+  background-color: #6bc972;
 }
