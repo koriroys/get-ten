@@ -10,101 +10,121 @@
   border: 1px solid black;
   cursor: pointer;
   display: inline;
+  font-family: Arial;
   padding: 20px;
 }
 
 ._1 {
-  background-color: rgb(180, 84, 0);
+  /* GreenYellow */
+  background-color: rgb(186, 241, 87);
+  /* LimeGreen */
+  color: rgb(61, 174, 3);
 }
 
 .is-selected._1 {
-  background-color: rgb(153, 71, 0);
+  background-color: rgb(176, 233, 75);
 }
 
 ._2 {
-  background-color: rgb(108, 130, 169);
+  /* DodgerBlue */
+  color: rgb(31, 141, 251);
+  /* LightSkyBlue */
+  background-color: rgb(91, 193, 249);
 }
 
 .is-selected._2 {
-  background-color: rgb(91, 110, 143);
+  background-color: rgb(68, 186, 252);
 }
 
 ._3 {
-  background-color: rgb(64, 40, 0);
+  /* Tomato */
+  color: rgb(253, 118, 46);
+  /* SandyBrown */
+  background-color: rgb(254, 199, 100);
 }
 
 .is-selected._3 {
-  background-color: rgb(54, 34, 0);
+  background-color: rgb(253, 190, 78);
 }
 
 ._4 {
-  background-color: rgb(60, 140, 42);
+  /* Coral */
+  background-color: rgb(253, 125, 93);
+  /* NavajoWhite */
+  color: rgb(254, 207, 157);
 }
 
 .is-selected._4 {
-  background-color: rgb(51, 119, 35);
+  background-color: rgb(253, 111, 86);
 }
 
 ._5 {
-  background-color: rgb(117, 98, 24);
+  /* DarkCyan */
+  background-color: rgb(23, 157, 134);
+  /* LightGreen */
+  color: rgb(127, 231, 157);
 }
 
 .is-selected._5 {
-  background-color: rgb(99, 83, 20);
+  background-color: rgb(21, 148, 126);
 }
 
 ._6 {
-  background-color: rgb(100, 105, 8);
+  /* MediumSlateBlue */
+  background-color: rgb(135, 114, 251);
+  /* Thistle */
+  color: rgb(205, 190, 253);
 }
 
 .is-selected._6 {
-  background-color: rgb(85, 89, 6);
+  background-color: rgb(116, 100, 251);
 }
 
 ._7 {
-  background-color: rgb(98, 112, 8);
+  background-color: rgb(252, 110, 194);
+  color: rgb(254, 189, 168);
 }
 
 .is-selected._7 {
-  background-color: rgb(83, 95, 6);
+  background-color: rgb(252, 84, 196);
 }
 
 ._8 {
-  background-color: rgb(42, 28, 80);
+  /* todo */
 }
 
 .is-selected._8 {
-  background-color: rgb(35, 23, 68);
+  /* todo */
 }
 
 ._9 {
-  background-color: rgb(108, 88, 9);
+  /* todo */
 }
 
 .is-selected._9 {
-  background-color: rgb(91, 74, 7);
+  /* todo */
 }
 
 ._10 {
-  background-color: rgb(30, 48, 22);
+  /* todo */
 }
 
 .is-selected._10 {
-  background-color: rgb(25, 40, 18);
+  /* todo */
 }
 
 ._11 {
-  background-color: rgb(88, 105, 36);
+  /* todo */
 }
 
 .is-selected._11 {
-  background-color: rgb(74, 89, 30);
+  /* todo */
 }
 
 ._12 {
-  background-color: rgb(66, 108, 14);
+  /* todo ;*/
 }
 
 .is-selected._12 {
-  background-color: rgb(56, 91, 11);
+  /* todo ;*/
 }
