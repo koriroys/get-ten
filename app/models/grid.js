@@ -209,9 +209,39 @@ export default Ember.Object.extend({
     }
   },
 
-  combineMatchingNeighbors(location) {
-    let matchingNeighbors = this.matchingNeighbors(location);
+  settle() {
+    let columnNumbers = [...Array(MAX_COL_INDEX + 1).keys()];
 
+    columnNumbers.forEach((columnNumber) => {
+      this.settleColumn(columnNumber);
+    });
+  },
+
+  settleColumn(columnNumber) {
+    let elements = get(this, "elements");
+
+    // should probably extract this to an elements method
+    let column = [...Array(MAX_COL_INDEX + 1).keys()].map((rowNumber) => {
+      return elements[rowNumber][columnNumber];
+    });
+
+    let values = column.mapBy("value").filter((value) => {
+      return value !== 0
+    });
+
+    let numberOfBlankSpaces = MAX_COL_INDEX + 1 - values.length;
+    let blankSpaces = [...Array(numberOfBlankSpaces).keys()].map(() => { return 0 });
+
+    // have zero leading array of the values, e.g. [0, 0, 1, 1, 2]
+    blankSpaces.pushObjects(values);
+
+    // shift all location values down and zero fill values above
+    blankSpaces.forEach((boo, rowNumber) => {
+      set(elements[rowNumber][columnNumber], "value", boo);
+    });
+  },
+
+  combineMatchingNeighbors(matchingNeighbors) {
     if ( isEqual(matchingNeighbors.length, 0) ) {
       return; // don't combine if it's a single element
     }

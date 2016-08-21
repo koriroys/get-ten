@@ -40,6 +40,7 @@ export default Component.extend(KeyboardShortcuts, {
         if ( matchingNeighbors.length > 0 ) {
           grid.combineMatchingNeighbors(matchingNeighbors);
           location.incrementProperty("value");
+          grid.settle();
         }
         grid.deselectAll();
       } else {
