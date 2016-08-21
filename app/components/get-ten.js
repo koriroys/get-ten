@@ -41,6 +41,7 @@ export default Component.extend(KeyboardShortcuts, {
           grid.combineMatchingNeighbors(matchingNeighbors);
           location.incrementProperty("value");
           grid.settle();
+          grid.randomFillEmptySpaces();
         }
         grid.deselectAll();
       } else {

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Location from './location';
 
-const { get, set, isEqual, isPresent } = Ember;
+const { get, computed, isEqual, isPresent, set } = Ember;
 const MAX_ROW_INDEX = 4;
 const MAX_COL_INDEX = 4;
 
@@ -24,6 +24,20 @@ export default Ember.Object.extend({
     this.restart();
     this._super(...arguments);
   },
+
+  flattenedElements: computed('elements', function() {
+    let elements = get(this, "elements");
+
+    let flattenedElements = [];
+    elements.forEach((row) => {
+      flattenedElements.pushObjects(row);
+    });
+    return flattenedElements;
+  }),
+
+  allValues: computed.mapBy('flattenedElements', 'value'),
+
+  currentMax: computed.max('allValues'),
 
   // utilities functions
   deselectAll() {
@@ -238,6 +252,22 @@ export default Ember.Object.extend({
     // shift all location values down and zero fill values above
     blankSpaces.forEach((boo, rowNumber) => {
       set(elements[rowNumber][columnNumber], "value", boo);
+    });
+  },
+
+  randomFillEmptySpaces() {
+    let elements = get(this, "elements");
+    let currentMax = get(this, "currentMax");
+
+    elements.forEach((row) => {
+      row.forEach((element) =>{
+        let value = get(element, "value");
+        if ( value === 0 ) {
+          let fillerNumber = this.randomInclusive(1, currentMax);
+
+          set(element, "value", fillerNumber);
+        }
+      });
     });
   },
 
