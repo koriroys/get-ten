@@ -3,7 +3,7 @@
 }
 
 .row {
-  padding: 20px ;
+  padding: 20px;
 }
 
 .location {
@@ -19,4 +19,8 @@
 
 .is-selected.two {
   background-color: #aff;
+}
+
+.is-selected.three {
+  background-color: #afa;
 }

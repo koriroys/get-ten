@@ -3,9 +3,11 @@ import KeyboardShortcuts from 'ember-keyboard-shortcuts/mixins/component';
 import Location from '../models/location';
 import Grid from '../models/grid';
 
-const { Component, get, set, computed, isEqual } = Ember
+const { Component, get, set, computed, isEqual, isPresent } = Ember
 
 export default Component.extend(KeyboardShortcuts, {
+  lastTapped: null,
+
   init() {
     this._super(...arguments);
 
@@ -28,18 +30,27 @@ export default Component.extend(KeyboardShortcuts, {
 
     tapped(location) {
       let grid = get(this, "grid");
-      if ( isEqual(get(location, "isSelected"), true) ) {
-        grid.combineMatchingNeighbors(location);
-        location.incrementProperty("value");
-        grid.replaceCombined();
 
+      let lastTapped = get(this, "lastTapped");
 
-        // increment(location)
-        //
-      } else {
+      if ( isPresent(lastTapped) && isEqual(get(location, "isSelected"), true) ) {
+        // second tap
+        set(this, "lastTapped", null);
+        let matchingNeighbors = grid.matchingNeighbors(location);
+        if ( matchingNeighbors.length > 0 ) {
+          grid.combineMatchingNeighbors(matchingNeighbors);
+          location.incrementProperty("value");
+        }
         grid.deselectAll();
-        grid.selectLocation(location);
+      } else {
+        // first tap
+        grid.deselectAll();
         grid.selectMatchingNeighbors(location);
+        let matchingNeighbors = grid.matchingNeighbors(location);
+        if ( matchingNeighbors.length > 0 ) {
+          grid.selectLocation(location);
+        }
+        set(this, "lastTapped", location);
       }
     }
   }
