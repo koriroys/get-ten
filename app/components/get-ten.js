@@ -1,27 +1,17 @@
 import Ember from 'ember';
-import KeyboardShortcuts from 'ember-keyboard-shortcuts/mixins/component';
 import Location from '../models/location';
 import Grid from '../models/grid';
 
 const { Component, get, set, computed, isEqual, isPresent } = Ember
 
-export default Component.extend(KeyboardShortcuts, {
+export default Component.extend({
   lastTapped: null,
 
   init() {
     this._super(...arguments);
 
     set(this, 'grid', Grid.create());
-    // let game = Game.create();
-    // set(this, 'game', game);
   },
-
-  // restart() {
-  //   this.get('game').restart();
-  //   this.get('level').restart();
-  // },
-
-
 
   actions: {
     restart() {
