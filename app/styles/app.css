@@ -1,17 +1,20 @@
-#myCanvas {
-  background-color: #EDC9AF;
-}
-
 .row {
-  padding: 20px;
+  height: 55px;
 }
 
 .location {
-  border: 1px solid black;
   cursor: pointer;
-  display: inline;
+  display: inline-block;
   font-family: Arial;
-  padding: 20px;
+  margin-right: -4px;
+  height: 55px;
+  width: 55px;
+}
+
+.number {
+  position: relative;
+  top: 20px;
+  left: 23px;
 }
 
 ._1 {
@@ -90,19 +93,21 @@
 }
 
 ._8 {
-  /* todo */
+  background-color: rgb(244, 62, 101);
+  color: rgb(254, 209, 181);
 }
 
 .is-selected._8 {
-  /* todo */
+  background-color: rgb(233, 41, 67);
 }
 
 ._9 {
-  /* todo */
+  background-color: rgb(254, 245, 74);
+  color: rgb(207, 91, 57);
 }
 
 .is-selected._9 {
-  /* todo */
+  background-color: rgb(254, 232, 52);
 }
 
 ._10 {

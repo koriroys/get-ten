@@ -1,13 +1,12 @@
 <button {{action "restart"}}>Restart</button>
-<p>Score: {{score}}</p>
-
-
 
 {{#each grid.elements as |row|}}
   <div class="row">
   {{#each row as |element|}}
     <div class={{concat "location " (concat "_" element.value) (if element.isSelected " is-selected")}} onclick={{action "tapped" element}}>
-      {{element.value}}
+      <div class="number">
+        {{element.value}}
+      </div>
     </div>
   {{/each}}
   </div>
