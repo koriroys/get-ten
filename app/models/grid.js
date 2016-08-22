@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Location from './location';
 
-const { get, computed, isEqual, isPresent, set } = Ember;
+const { get, computed, isEqual, isPresent, observer, set } = Ember;
 const MAX_ROW_INDEX = 4;
 const MAX_COL_INDEX = 4;
 
@@ -38,6 +38,14 @@ export default Ember.Object.extend({
   allValues: computed.mapBy('flattenedElements', 'value'),
 
   currentMax: computed.max('allValues'),
+
+  gameOver: observer('currentMax', function() {
+    let currentMax = get(this, "currentMax");
+    if ( isEqual(currentMax, 10) ) {
+      alert("You did it! You got 10!");
+      this.restart();
+    }
+  }),
 
   // utilities functions
   deselectAll() {
